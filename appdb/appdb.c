@@ -2,17 +2,18 @@
 //
 
 #include "pch.h"
-#include <iostream>
+#include <stdio.h>
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+    printf("Hello World!\n"); 
 }
 
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
 // Depurar programa: F5 o menú Depurar > Iniciar depuración
 
-// Sugerencias para primeros pasos: 1. Use la ventana del Explorador de soluciones para agregar y administrar archivos
+// Sugerencias para primeros pasos: 
+//	1. Use la ventana del Explorador de soluciones para agregar y administrar archivos
 //   2. Use la ventana de Team Explorer para conectar con el control de código fuente
 //   3. Use la ventana de salida para ver la salida de compilación y otros mensajes
 //   4. Use la ventana Lista de errores para ver los errores
