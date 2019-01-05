@@ -24,7 +24,7 @@
 ** The official C-language API documentation for SQLite is derived
 ** from comments in this file.  This file is the authoritative source
 ** on how SQLite interfaces are supposed to operate.
-**
+** E<3
 ** The name of this file under configuration management is "sqlite.h.in".
 ** The makefile makes some minor changes to this file (such as inserting
 ** the version number) and changes its name to "sqlite3.h" as
