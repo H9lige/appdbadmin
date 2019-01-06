@@ -26,5 +26,8 @@
     <ClCompile Include="pch.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="appfilelib.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

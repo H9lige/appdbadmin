@@ -2,13 +2,15 @@
 //
 
 #include "pch.h"
-//#include "appfileopen.h"
+//#include "appfilelib.c"
 #include <stdio.h>
 
 int main(void)
 {
     printf("Hello World!\n");
-	
+	char fichero;
+	scanf_s("%c", &fichero);
+	fileopen(fichero, "r");
 }
 
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
