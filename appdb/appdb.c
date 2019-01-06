@@ -4,9 +4,23 @@
 #include "pch.h"
 #include <stdio.h>
 
-int main()
+int main(char mode)
 {
-    printf("Hello World!\n"); 
+    printf("Hello World!\n");
+	switch ((char)mode)
+	{//j = json | c = csv | e = excel
+	case 'j':
+		//se usa json_object('ex','[52,50]')->'{"ex":"[52,50]"}'
+		//se usa json_object('ex',json('[52,50]'))->'{"ex":[52,50]}'
+		//se usa json_object('ex',json_array(52,50))->'{"ex":[52,50]}'
+		break;
+	case 'c':
+		break;
+	case 'e':
+		break;
+	default:
+		break;
+	}
 }
 
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
