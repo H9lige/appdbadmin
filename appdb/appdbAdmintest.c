@@ -1,9 +1,8 @@
-#include "pch.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "sqlite3.h"
-
+#include "pch.h"
 
 #define MAXCOL 100
 #define MAXQUERY 1000
@@ -27,7 +26,7 @@ int callback(void* data, int ncols, char** values, char** headers);
 
 int main(int argc, char* argv[]) {
 	system("cls");
-	sql *consulta = NULL;
+	sql *consulta;
 	sqlite3 *db; //tipo de sqlite3.o
 	char *zErr = 0;
 	int rc;
@@ -59,11 +58,11 @@ int main(int argc, char* argv[]) {
 			dropTable(&consulta);
 			break;
 		default:
-			//listarTabla(&consulta);
+			listarTabla(&consulta);
 			break;
-		}
-		char *argF1 = "Consulta SQL realizada!";
-		sqlite3_exec(db, consulta->query, consulta->callback, NULL, argF1);
+		}	
+			char *argF1 = "Consulta SQL realizada!";
+			sqlite3_exec(db,consulta->query,consulta->callback,NULL,argF1);
 		if (rc != SQLITE_OK)
 		{
 			if (zErr != NULL)
@@ -77,29 +76,29 @@ int main(int argc, char* argv[]) {
 	}
 }
 int insertData(sql *consulta) {
-	strcpy_s(consulta->query, strlen("insert into ") ,"insert into ");
-	strcat_s(consulta->query, strlen(consulta->table) ,consulta->table);
-	strcat_s(consulta->query, 1 ,"(");
+	strcpy(consulta->query, "insert into ");
+	strcat(consulta->query, consulta->table);
+	strcat(consulta->query, "(");
 	int i = 0;
 	while (i < MAXCOL)
 	{
 		printf("\nNombre de columna a insertar<%d>: ", i);
-		scanf_s("%s", &consulta->columnName[i]);
-		strcat_s(consulta->query, strlen(consulta->columnName[i]),consulta->columnName[i]);
+		scanf("%s", &consulta->columnName[i]);
+		strcat(consulta->query, consulta->columnName[i]);
 	CONTINUAR:
-		printf("\nÂ¿Quieres introducir mas?Si/No");
+		printf("\n¿Quieres introducir mas?Si/No");
 		char *z;
-		scanf_s("%s", &z, 2);
-		_strlwr_s(z, 2);
+		scanf("%s", z);
+		strlwr(z);
 		if ((z[0] == 's') || (z[0] == 's' && z[1] == 'i'))
 		{
-			strcat_s(consulta->query, strlen(", ") ,", ");
+			strcat(consulta->query, ", ");
 			i++;
 		}
 		else {
 			if ((z[0] == 'n') || (z[0] == 'n' && z[1] == 'o'))
 			{
-				strcat_s(consulta->query, strlen(") values ("), ") values (");
+				strcat(consulta->query, ") values (");
 				break;
 			}
 			else {
@@ -108,79 +107,78 @@ int insertData(sql *consulta) {
 		}
 	}
 	i = 0;
-	while (consulta->columnName[i] != '\0')
+	while (consulta->columnName[i]!='\0')
 	{
 		printf("\nValor para columna %s: ", consulta->columnName[i]);
-		scanf_s("%s", &consulta->columnData[i], strlen(&consulta->columnData[i]));
-		strcat_s(consulta->query, strlen(consulta->columnData[i]) ,consulta->columnData[i]);
-		strcat_s(consulta->query, strlen(", "), ", ");
+		scanf("%s", &consulta->columnData[i]);
+		strcat(consulta->query, consulta->columnData[i]);
+		strcat(consulta->query, ", ");
 		i++;
 	}
-	strcat_s(consulta->query, strlen(");") , ");");
+	strcat(consulta->query, ");");
 	printf("la consulta es: %s", consulta->query);
 }
 int createTable(sql *consulta) {
-	strcpy_s(consulta->query, strlen("create table ") ,"create table ");
-	strcat_s(consulta->query, strlen(consulta->table) ,consulta->table);
-	strcat_s(consulta->query, strlen("("), "(");
+	strcpy(consulta->query, "create table ");
+	strcat(consulta->query, consulta->table);
+	strcat(consulta->query, "(");
 	printf("\nIntroduzca columnas de la tabla %s", consulta->table);
 	int i = 0;
 	while (i < MAXCOL)
 	{
-		printf("\nNombre de columna <%d>: ", i + 1);
-		scanf_s("%s", &consulta->columnName[i], strlen(&consulta->columnName[i]));
+		printf("\nNombre de columna <%d>: ", i+1);
+		scanf("%s", &consulta->columnName[i]);
 		printf(" Tipo dato para columna %s:\n", consulta->columnName);
-		scanf_s("%s", &consulta->columnType[i], strlen(&consulta->columnType[i]));
-		strcat_s(consulta->query, strlen(consulta->columnName[i]) ,consulta->columnName[i]);
-		strcat_s(consulta->query, strlen(" "), " ");
-		strcat_s(consulta->query, strlen(consulta->columnType[i]), consulta->columnType[i]);
+		scanf("%s", &consulta->columnType[i]);
+		strcat(consulta->query, consulta->columnName[i]);
+		strcat(consulta->query, " ");
+		strcat(consulta->query, consulta->columnType[i]);
 	CONTINUAR:
-		printf("\nÂ¿Quieres introducir mas?Si/No");
+		printf("\n¿Quieres introducir mas?Si/No");
 		char *z;
-		scanf_s("%s", &z, strlen(&z));
-		_strlwr_s(z, 2);
+		scanf("%s", z);
+		strlwr(z);
 		printf(z);
-		if ((z[0] == 's') || (z[0] == 's' && z[1] == 'i'))
+		if ((z[0] == 's') || (z[0] == 's' && z[1]=='i'))
 		{
-			strcat_s(consulta->query, strlen(", "), ", ");
+			strcat(consulta->query, ", ");
 			i++;
 		}
 		else {
-			if ((z[0] == 'n') || (z[0] == 'n' && z[1] == 'o'))
+			if ((z[0]=='n') || (z[0] == 'n' && z[1] == 'o'))
 			{
-				strcat_s(consulta->query, strlen(");"),");");
+				strcat(consulta->query, ");");
 				printf("la consulta es: %s", consulta->query);
 				break;
-			}
-			else {
+			}else{
 				goto CONTINUAR;
 			}
 		}
 	}
 }
 int selectData(sql *consulta) {
-	strcpy_s(consulta->query, strlen("select "), "select ");
+	strcpy(consulta->query, "select ");
 	int i = 0;
 	while (i < MAXCOL)
 	{
 		printf("\nIntroduzca nombre de columna a seleccionar ");
-		scanf_s("%s", strlen(&consulta->columnName[i]), &consulta->columnName[i]);
-		strcat_s(consulta->query, strlen(consulta->columnName[i]), consulta->columnName[i]);
+		scanf("%s", &consulta->columnName[i]);
+		strcat(consulta->query, consulta->columnName[i]);
 	CONTINUAR:
-		printf("\nÂ¿Quieres introducir mas?Si/No");
+		printf("\n¿Quieres introducir mas?Si/No");
 		char *z;
-		scanf_s("%s", &z, 2);
-		_strlwr_s(&z, 2);
+		scanf("%s", z);
+		strlwr(z);
 		printf(z);
 		if ((z[0] == 's') || (z[0] == 's' && z[1] == 'i'))
 		{
-			strcat_s(consulta->query, strlen(", "), ", ");
+			strcat(consulta->query, ", ");
 			i++;
 		}
 		else {
 			if ((z[0] == 'n') || (z[0] == 'n' && z[1] == 'o'))
 			{
-				strcat_s(consulta->query, strlen(") from"), ") from");
+				strcat(consulta->query, ") from");
 				break;
 			}
 			else {
@@ -188,24 +186,25 @@ int selectData(sql *consulta) {
 			}
 		}
 	}
-	strcpy_s(consulta->query, strlen(consulta->table), consulta->table);
-	while (1 == 1)
+	strcpy(consulta->query, consulta->table);
+	while (1==1)
 	{
 	ANADIR:
-		printf("\nÂ¿Quieres aÃ±adir coincidencias en la buscaqueda?Si/No");
+		printf("\n¿Quieres añadir coincidencias en la buscaqueda?Si/No");
 		char *y;
-		scanf_s("%s", &y, 2);
-		_strlwr_s(y, 2);
+		scanf("%s", y);
+		strlwr(y);
 		printf(y);
 		if ((y[0] == 's') || (y[0] == 's' && y[1] == 'i'))
 		{
-			strcat_s(consulta->query, strlen(" where "), " where ");
-			scanf_s("%s", y, strlen(y));
+			strcat(consulta->query, " where ");
+			
+			scanf("%s", y);
 		}
 		else {
 			if ((y[0] == 'n') || (y[0] == 'n' && y[1] == 'o'))
 			{
-				strcat_s(consulta->query, strlen(";"), ";");
+				strcat(consulta->query, ";");
 				break;
 			}
 			else {
@@ -216,9 +215,9 @@ int selectData(sql *consulta) {
 	printf("la consulta es: %s", consulta->query);
 }
 int dropTable(sql *consulta) {
-	strcpy_s(consulta->query, strlen("drop table "), "drop table ");
-	strcat_s(consulta->query, strlen(consulta->table), consulta->table);
-	strcpy_s(consulta->query, strlen(";"), ";");
+	strcpy(consulta->query, "drop table ");
+	strcat(consulta->query, consulta->table);
+	strcpy(consulta->query, ";");
 }
 int callback(void* data, int ncols, char** values, char** headers) {
 	int i;

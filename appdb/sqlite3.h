@@ -33,7 +33,7 @@
 #ifndef SQLITE3_H
 #define SQLITE3_H
 #include <stdarg.h>     /* Needed for the definition of va_list */
-
+#endif
 /*
 ** Make sure we can call this stuff from C++.
 */
@@ -9284,6 +9284,7 @@ SQLITE_API int sqlite3_deserialize(
 #ifdef __cplusplus
 }  /* End of the 'extern "C"' block */
 #endif
+#ifdef SQLITE3_H
 #endif /* SQLITE3_H */
 
 /******** Begin file sqlite3rtree.h *********/
